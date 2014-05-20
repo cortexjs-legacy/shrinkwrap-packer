@@ -10,13 +10,11 @@
   "author": "spud",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.2.0",
-    "vinyl-fs": "^0.1.4",
-    "adm-zip": "^0.4.4",
     "archiver": "^0.10.0-alpha",
     "mkdirp": "^0.5.0"
   },
   "devDependencies": {
+    "express": "^4.2.0",
     "errorhandler": "^1.0.1"
   }
 }
