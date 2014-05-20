@@ -7,7 +7,8 @@ var app = express();
 app.use('/mod',express.static('mod'));
 
 app.use(shrinkpacker({
-    root: path.join(__dirname,"mod")
+    root: path.join(__dirname,"mod"),
+    pack: path.join(__dirname,"packages") // default as @root
 }));
 
 app.use(function(req,res){
