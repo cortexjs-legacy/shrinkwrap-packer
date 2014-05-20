@@ -1,0 +1,22 @@
+{
+  "name": "shrinkwrap-packer",
+  "version": "0.1.0",
+  "description": "zip packing middleware",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "spud",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.2.0",
+    "vinyl-fs": "^0.1.4",
+    "adm-zip": "^0.4.4",
+    "archiver": "^0.10.0-alpha",
+    "mkdirp": "^0.5.0"
+  },
+  "devDependencies": {
+    "errorhandler": "^1.0.1"
+  }
+}
