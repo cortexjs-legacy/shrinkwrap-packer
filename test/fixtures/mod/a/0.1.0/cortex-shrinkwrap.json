@@ -1,0 +1,14 @@
+{
+  "name": "a",
+  "version": "0.1.0",
+  "dependencies": {
+    "b": {
+      "version": "0.0.1",
+      "dependencies": {
+        "c": {
+          "version": "0.1.0"
+        }
+      }
+    }
+  }
+}

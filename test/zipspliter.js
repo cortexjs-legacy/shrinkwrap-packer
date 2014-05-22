@@ -26,6 +26,7 @@ describe('splite', function () {
       version: "0.1.0"
     });
   });
+
   it('single range', function () {
     build('/a/0.1.0~0.1.2.zip',{
       name: "a",
