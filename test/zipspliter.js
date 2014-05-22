@@ -13,7 +13,7 @@ describe('splite', function () {
     var req = {path: url};
     var res = {};
     var next = function(){
-      expect(req.result).to.deep.equal(result);
+      expect(req.zipdefine).to.deep.equal(result);
     };
 
     zipspliter(req,res,next);
