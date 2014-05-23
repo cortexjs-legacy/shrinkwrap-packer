@@ -10,13 +10,7 @@ chai.should();
 describe('splite', function () {
 
   function build(url,result){
-    var req = {path: url};
-    var res = {};
-    var next = function(){
-      expect(req.zipdefine).to.deep.equal(result);
-    };
-
-    zipspliter(req,res,next);
+    expect(zipspliter(url)).to.deep.equal(result);
   }
 
 
