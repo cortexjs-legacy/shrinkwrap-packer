@@ -17,7 +17,16 @@ describe('splite', function () {
   it('single zip', function () {
     build('/a/0.1.0.zip',{
       name: "a",
-      version: "0.1.0"
+      version: "0.1.0",
+      single:false
+    });
+  });
+
+  it('standalone zip', function () {
+    build('/a/0.1.0-single.zip',{
+      name: "a",
+      version: "0.1.0",
+      single:true
     });
   });
 
@@ -27,17 +36,20 @@ describe('splite', function () {
       version: {
         from: "0.1.0",
         to: "0.1.2"
-      }
+      },
+      single:false
     })
   });
 
   it('multi zip', function(){
     build('/a,b/0.1.0,0.2.3.zip',[{
       name: "a",
-      version: "0.1.0"
+      version: "0.1.0",
+      single:false
     },{
       name: "b",
-      version: "0.2.3"
+      version: "0.2.3",
+      single:false
     }]);
   });
 
@@ -47,13 +59,15 @@ describe('splite', function () {
       version: {
         from: "0.1.0",
         to:"0.1.2"
-      }
+      },
+      single:false
     },{
       name: "b",
       version: {
         from: "0.1.0",
         to: "0.2.3"
-      }
+      },
+      single:false
     }]);
   });
 
