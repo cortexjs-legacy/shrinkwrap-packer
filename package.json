@@ -15,7 +15,8 @@
     "underscore": "^1.6.0",
     "q": "^1.0.1",
     "glob": "^4.0.0",
-    "md5-json": "^0.1.1"
+    "md5-json": "^0.1.1",
+    "shrinkwrap-reader": "^0.1.0"
   },
   "devDependencies": {
     "express": "^4.2.0",
