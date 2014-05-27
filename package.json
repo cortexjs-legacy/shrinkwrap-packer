@@ -30,6 +30,8 @@
     "errorhandler": "^1.0.1",
     "supertest": "^0.12.1",
     "chai": "^1.9.1",
-    "mocha": "^1.19.0"
+    "mocha": "^1.19.0",
+    "unzip": "^0.1.9",
+    "fstream": "^0.1.25"
   }
 }

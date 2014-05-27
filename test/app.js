@@ -4,11 +4,13 @@ chai.should()
 
 
 var fs = require('fs');
+var fse = require('fs-extra');
 var path = require('path');
 var async = require('async');
 var express = require('express');
 var request = require('supertest');
-
+var utils = require('./lib/utils');
+var mkdirp = require('mkdirp');
 
 var shrinkpacker = require('../lib/middleware');
 
@@ -24,6 +26,10 @@ app.use(function(req,res){
 
 describe('app',function(){
 
+  beforeEach(function(done){
+    fse.remove(path.join(__dirname,'tmp'),done);
+  });
+
   it('full',function(done){
     request(app)
       .get('/zip/a/0.1.0.zip')
@@ -35,14 +41,15 @@ describe('app',function(){
   });
 
   it('patch',function(done){
-    request(app)
-      .get('/zip/a/0.1.0~0.1.1.zip')
-      .expect(200)
-      .end(function(err, res) {
-        if (err) throw err;
-        done();
-      });
+    console.log();
+    utils.verifyPatch(app,'a@0.1.0~0.1.1',function(err,checksums){
+      if(err){throw err;}
+      expect(checksums[0]).to.equal(checksums[1]);
+      expect(checksums[1]).to.equal(checksums[2]);
+      done();
+    });
   });
+
 
   it('checksum',function(done){
     request(app)
@@ -50,6 +57,7 @@ describe('app',function(){
       .expect(200)
       .end(function(err, res) {
         if (err) throw err;
+        expect(res.text.length == 32);
         done();
       });
   });
