@@ -1,6 +1,7 @@
 # Cortex
 build/
 .cortex/
+mod/
 test/fixtures/zip
 neurons
 # PHP files
