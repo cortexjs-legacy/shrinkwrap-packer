@@ -24,7 +24,7 @@ app.use(function(req,res){
 
 describe('app',function(){
 
-  it('normal',function(done){
+  it('full',function(done){
     request(app)
       .get('/zip/a/0.1.0.zip')
       .expect(200)
@@ -34,12 +34,24 @@ describe('app',function(){
       });
   });
 
-  // it('diff-patch',function(){
+  it('patch',function(done){
+    request(app)
+      .get('/zip/a/0.1.0~0.1.1.zip')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) throw err;
+        done();
+      });
+  });
 
-  // });
-
-  // it('batch',function(){
-
-  // });
+  it('checksum',function(done){
+    request(app)
+      .get('/zip/a/0.1.0.min-checksum')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) throw err;
+        done();
+      });
+  });
 
 });

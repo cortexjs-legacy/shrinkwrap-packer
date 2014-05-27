@@ -95,5 +95,12 @@ describe('get file list',function(){
       expect(err).to.not.be.null;
     });
   });
+
+  it('checksum',function(){
+    packer.makeCheckSum({
+      name:"a",
+      version:"0.1.0"
+    })
+  })
 });
 

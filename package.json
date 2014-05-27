@@ -18,7 +18,9 @@
     "md5-json": "^0.1.1",
     "shrinkwrap-reader": "^0.1.0",
     "temp": "^0.7.0",
-    "semver": "^2.3.0"
+    "semver": "^2.3.0",
+    "md5": "^1.0.0",
+    "through": "^2.3.4"
   },
   "devDependencies": {
     "express": "^4.2.0",

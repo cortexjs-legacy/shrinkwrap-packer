@@ -16,60 +16,45 @@ describe('splite', function () {
 
   it('single zip', function () {
     build('/a/0.1.0.zip',{
+      min: false,
       name: "a",
-      version: "0.1.0",
-      single:false
-    });
-  });
-
-  it('standalone zip', function () {
-    build('/a/0.1.0-single.zip',{
-      name: "a",
-      version: "0.1.0",
-      single:true
+      version: "0.1.0"
     });
   });
 
   it('single range', function () {
     build('/a/0.1.0~0.1.2.zip',{
+      min: false,
       name: "a",
       version: {
         from: "0.1.0",
         to: "0.1.2"
-      },
-      single:false
-    })
+      }
+    });
   });
 
-  it('multi zip', function(){
-    build('/a,b/0.1.0,0.2.3.zip',[{
-      name: "a",
-      version: "0.1.0",
-      single:false
-    },{
-      name: "b",
-      version: "0.2.3",
-      single:false
-    }]);
-  });
 
-  it('multi range', function () {
-    build('/a,b/0.1.0~0.1.2,0.1.0~0.2.3.zip',[{
+  it('min', function () {
+    build('/a/0.1.0~0.1.2.min.zip',{
+      min: true,
       name: "a",
       version: {
         from: "0.1.0",
-        to:"0.1.2"
-      },
-      single:false
-    },{
-      name: "b",
-      version: {
-        from: "0.1.0",
-        to: "0.2.3"
-      },
-      single:false
-    }]);
+        to: "0.1.2"
+      }
+    });
   });
 
 
+  it('checksum', function () {
+    build('/a/0.1.0~0.1.2.min-checksum',{
+      min: true,
+      checksum:true,
+      name: "a",
+      version: {
+        from: "0.1.0",
+        to: "0.1.2"
+      }
+    });
+  });
 });
