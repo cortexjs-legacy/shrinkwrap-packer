@@ -22,11 +22,6 @@ app.use(function(req,res){
     res.send(404,"not found");
 });
 
-function unzipAndCheckFile(){
-
-}
-
-
 describe('app',function(){
 
   it('normal',function(done){
@@ -35,8 +30,6 @@ describe('app',function(){
       .expect(200)
       .end(function(err, res) {
         if (err) throw err;
-        // console.log(res.headers);
-        // console.log(res.text);
         done();
       });
   });

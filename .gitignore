@@ -5,6 +5,7 @@ test/fixtures/zip
 neurons
 # PHP files
 index.php
+.md5.json
 
 # Numerous always-ignore extensions
 *.bak

@@ -2,3 +2,36 @@ M a.min.js
 - a2.js
 M cortex-shrinkwrap.json
 + a3.js
+
+
+// for self
+
+
+-> not changed
+C a/0.1.0/a.js a/0.1.0/a.js
+D a/0.1.0/a.js
+
+-> add
+A a/0.1.1/a3.js
+
+-> remove
+D a/0.1.0/a2.js
+
+-> changed
+A a/0.1.1/a.min.js
+D a/0.1.0/a.min.js
+
+
+->
+last
+
+b
+
+
+D a/0.1.0/a2.js
+
+
+A a/0.1.1/a3.js
+R b/0.0.1/b.js b/0.0.2/b.js
+A b/0.0.2/b.min.js
+D b/0.0.1/b.min.js
