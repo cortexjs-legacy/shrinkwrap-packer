@@ -89,6 +89,8 @@ exports.checksum = function(dir,done){
 };
 
 exports.verifyPatch = function(app,patch,done){
+  var isMin = patch.match(/\.min$/);
+  patch = patch.replace(/\.min$/,'');
   var splited = patch.split('@');
   var name = splited[0];
   var range = splited[1].split('~');

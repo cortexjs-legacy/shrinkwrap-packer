@@ -7,27 +7,10 @@ var contentDisposition = require('./lib/utils').contentDisposition;
 
 var app = express();
 // app.use('/mod',express.static('mod'));
-app.use('/zip',function(req,res,next){
-  var filepath = path.join(__dirname,"zip",req.path);
-
-  fs.exists(filepath,function(exists){
-    if(!exists){return next();}
-    if(filepath.match(/\.zip$/)){
-      fs.readFile(filepath,function(err,content){
-        if(err){return next(err);}
-        // TODO: use md5json to get content md5
-        res.type('zip');
-        res.set('Content-MD5',md5(content));
-        res.set('Content-Disposition', contentDisposition(filepath));
-        res.send(content);
-      });
-    }else{
-      res.sendfile(filepath);
-    }
-  });
-
-});
-app.use('/zip',shrinkpacker({
+app.use('/zip',shrinkpacker.static({
+  pack: path.join(__dirname,"zip")
+}));
+app.use('/zip',shrinkpacker.dynamic({
     root: path.join(__dirname,"mod"),
     pack: path.join(__dirname,"zip")
 }));

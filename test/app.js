@@ -50,6 +50,16 @@ describe('app',function(){
     });
   });
 
+  it('patch',function(done){
+    console.log();
+    utils.verifyPatch(app,'a@0.1.0~0.1.1.min',function(err,checksums){
+      if(err){throw err;}
+      expect(checksums[0]).to.equal(checksums[1]);
+      expect(checksums[1]).to.equal(checksums[2]);
+      done();
+    });
+  });
+
 
   it('checksum',function(done){
     request(app)
