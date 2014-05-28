@@ -3,7 +3,6 @@ var shrinkpacker = require('./lib/middleware');
 var path = require('path');
 var fs = require('fs');
 var md5 = require('MD5');
-var contentDisposition = require('./lib/utils').contentDisposition;
 
 var app = express();
 // app.use('/mod',express.static('mod'));

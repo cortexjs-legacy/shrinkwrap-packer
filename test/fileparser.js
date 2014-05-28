@@ -97,7 +97,7 @@ describe('get file list',function(){
   });
 
   it('checksum',function(){
-    packer.makeCheckSum({
+    packer.checksum({
       name:"a",
       version:"0.1.0"
     })
