@@ -12,7 +12,7 @@ var request = require('supertest');
 var utils = require('./lib/utils');
 var mkdirp = require('mkdirp');
 
-var shrinkpacker = require('../lib/middleware');
+var shrinkpacker = require('../lib/middleware').dynamic;
 
 var app = express();
 app.use('/zip',shrinkpacker({
@@ -41,7 +41,6 @@ describe('app',function(){
   });
 
   it('patch',function(done){
-    console.log();
     utils.verifyPatch(app,'a@0.1.0~0.1.1',function(err,checksums){
       if(err){throw err;}
       expect(checksums[0]).to.equal(checksums[1]);
@@ -50,8 +49,8 @@ describe('app',function(){
     });
   });
 
-  it('patch',function(done){
-    console.log();
+
+  it('patch min',function(done){
     utils.verifyPatch(app,'a@0.1.0~0.1.1.min',function(err,checksums){
       if(err){throw err;}
       expect(checksums[0]).to.equal(checksums[1]);

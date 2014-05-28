@@ -8,9 +8,11 @@ var mkdirp = require('mkdirp');
 var request = require('supertest');
 var glob = require('glob');
 var md5 = require('MD5');
+var debug = require('debug')('apptest');
 
 
 exports.extract = function(zippath,folder,done){
+  folder = folder.replace(/\.min$/,'');
   var readStream = fs.createReadStream(zippath);
   mkdirp(folder,function(err){
     if(err){return done(err);}
@@ -52,15 +54,15 @@ exports.runDirectives = function(directives, tmpdir, rootdir, done){
       case "C":
       case "M":
       case "A":
-        console.log('cp',action,from_path,to_path);
+        debug('cp',action,from_path,to_path);
         fse.copy(from_path,to_path,done);
         break;
       case "R":
-        console.log('mv',action,from_path,to_path);
+        debug('mv',action,from_path,to_path);
         fse.move(from_path,to_path,done);
         break;
       case "D":
-        console.log('rm',action,to_path);
+        debug('rm',action,to_path);
         fse.remove(to_path,done);
         break;
     }
@@ -98,18 +100,18 @@ exports.verifyPatch = function(app,patch,done){
   var from_origin = from + '-origin';
   var to = range[1];
   var zippaths = [
-    '/zip/'+name+'/'+from+'.zip',
-    '/zip/'+name+'/'+to+'.zip',
-    '/zip/'+name+'/'+from+'~'+to+'.zip'
+    '/zip/'+name+'/'+from+(isMin?'.min':'')+'.zip',
+    '/zip/'+name+'/'+to+(isMin?'.min':'')+'.zip',
+    '/zip/'+name+'/'+from+'~'+to+(isMin?'.min':'')+'.zip'
   ];
 
-  var checksumpath = '/zip/' + name + '/' + to + '-checksum';
+  var checksumpath = '/zip/' + name + '/' + to + (isMin?'.min':'') + '-checksum';
 
   range = range.join('~');
   function p(filepath){return path.join(__dirname,'..','tmp','units',filepath);}
 
   async.map(zippaths, function(zippath,done){
-
+    debug('request',zippath);
     request(app)
       .get(zippath)
       .expect(200)
@@ -124,7 +126,7 @@ exports.verifyPatch = function(app,patch,done){
           p(path.basename(zippath,'.zip')),
           function(err){
             if(err) throw err;
-            console.log('extract',zippath);
+            debug('extract',zippath);
             done();
           }
         );
@@ -162,12 +164,14 @@ exports.verifyPatch = function(app,patch,done){
                 exports.checksum(p(from_origin),done);
               },
               function(done){
+                debug('request',checksumpath)
                 request(app).get( checksumpath ).end(function(err,res){
                   done(null,res.text);
                 });
               }
             ],function(err,results){
               if(err){return done(err);}
+              // console.log(results);
               done(null,results);
             });
 
