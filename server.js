@@ -1,8 +1,6 @@
 var express = require('express');
 var shrinkpacker = require('./lib/middleware');
 var path = require('path');
-var fs = require('fs');
-var md5 = require('MD5');
 
 var app = express();
 // app.use('/mod',express.static('mod'));
