@@ -58,6 +58,26 @@ describe('app',function(){
       done();
     });
   });
+  
+  it('another full',function(done){
+    request(app)
+      .get('/zip/unit-m-weixin/1.12.6.min.zip')
+      .expect(200)
+      .end(function(err, res) {
+        if (err) throw err;
+        done();
+      });
+  });
+
+  it('another patch min',function(done){
+    this.timeout(10000);
+    utils.verifyPatch(app,'unit-m-weixin@1.12.6~1.12.7.min',function(err,checksums){
+      if(err){throw err;}
+      expect(checksums[0]).to.equal(checksums[1]);
+      expect(checksums[1]).to.equal(checksums[2]);
+      done();
+    });
+  });
 
 
   it('checksum',function(done){

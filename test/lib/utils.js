@@ -9,22 +9,17 @@ var request = require('supertest');
 var glob = require('glob');
 var md5 = require('MD5');
 var debug = require('debug')('apptest');
-
+var exec = require('child_process').exec;
 
 exports.extract = function(zippath,folder,done){
   folder = folder.replace(/\.min$/,'');
   var readStream = fs.createReadStream(zippath);
   mkdirp(folder,function(err){
     if(err){return done(err);}
-    var writeStream = fstream.Writer(folder);
-
-    writeStream.on('drain',function(){
+    exec('unzip ' + zippath + ' -d ' + folder, function(err,stdout,stderr){
+      if(err){return done(err);}
       done(null);
     });
-
-    readStream
-    .pipe(unzip.Parse())
-    .pipe(writeStream);
   });
 }
 
