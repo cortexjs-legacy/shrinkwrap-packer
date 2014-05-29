@@ -12,10 +12,7 @@ app.use('/zip',shrinkpacker.dynamic({
     pack: path.join(__dirname,"zip")
 }));
 
-app.use(function(err,req,res,next){
-    console.error(err.stack);
-    res.send(404,"not found");
-});
+app.use(shrinkpacker.errorHandler);
 
 app.listen(3000);
 

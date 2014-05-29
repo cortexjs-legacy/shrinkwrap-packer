@@ -46,15 +46,15 @@ describe('splite', function () {
   });
 
 
-  it('checksum', function () {
-    build('/a/0.1.0~0.1.2.min-checksum',{
-      min: true,
-      checksum:true,
-      name: "a",
-      version: {
-        from: "0.1.0",
-        to: "0.1.2"
-      }
-    });
+
+  it('invalid url', function () {
+    build('/a/0.1.0~0.1.2.min-checksumeaqweqweq', false);
+    build('/mbox/0.1.1.min-checksume', false);
+    build('/a/qidqwoiqwqweqwe', false);
+    build('/a/0.1.0~0.1.9-checksum', false);
+    build('/a/0.1.0~0.1.1', false);
+    build('/a/0.1.0~0.1.a', false);
+    build('/a', false);
+    build('/', false);
   });
 });
