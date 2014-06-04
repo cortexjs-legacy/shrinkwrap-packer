@@ -166,7 +166,6 @@ exports.verifyPatch = function(app,patch,done){
               }
             ],function(err,results){
               if(err){return done(err);}
-              // console.log(results);
               done(null,results);
             });
 

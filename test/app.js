@@ -1,3 +1,4 @@
+"use strict";
 var chai = require('chai');
 var expect = chai.expect;
 chai.should()
@@ -12,10 +13,14 @@ var request = require('supertest');
 var utils = require('./lib/utils');
 var mkdirp = require('mkdirp');
 
-var shrinkpacker = require('../lib/middleware').dynamic;
+var shrinkpacker = require('../lib/middleware');
 
 var app = express();
-app.use('/zip',shrinkpacker({
+
+app.use('/zip',shrinkpacker.static({
+    pack: path.join(__dirname,"fixtures","zip")
+}));
+app.use('/zip',shrinkpacker.dynamic({
     root: path.join(__dirname,"fixtures","mod"),
     pack: path.join(__dirname,"fixtures","zip")
 }));
@@ -27,7 +32,17 @@ app.use(function(req,res){
 describe('app',function(){
 
   beforeEach(function(done){
-    fse.remove(path.join(__dirname,'tmp'),done);
+    async.series([
+      function(done){
+        fse.remove(path.join(__dirname,'tmp'),done);
+      },
+      function(done){
+        fse.remove(path.join(__dirname,'fixtures','zip'),done);
+      }
+    ],function(err){
+      if(err){return done(err);}
+      done();
+    })
   });
 
   it('full',function(done){
@@ -60,13 +75,24 @@ describe('app',function(){
   });
   
   it('another full',function(done){
-    request(app)
-      .get('/zip/unit-m-weixin/1.12.6.min.zip')
-      .expect(200)
-      .end(function(err, res) {
-        if (err) throw err;
-        done();
+    this.timeout(10000);
+    function getZip(done){
+      request(app)
+        .get('/zip/unit-m-weixin/1.12.6.min.zip')
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          done(null,res);
+        });
+    }
+    async.series([getZip,getZip],function(err,results){
+      ["last-modified","date","etag"].forEach(function(header){
+        delete results[0].headers[header];
+        delete results[1].headers[header];
       });
+      expect(results[0].headers).to.deep.equal(results[1].headers);
+      done();
+    });
   });
 
   it('another patch min',function(done){
