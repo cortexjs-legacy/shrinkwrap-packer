@@ -4,6 +4,7 @@ build/
 mod/
 zip/
 test/fixtures/zip
+test/tmp
 neurons
 # PHP files
 index.php

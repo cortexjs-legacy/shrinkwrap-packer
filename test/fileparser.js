@@ -13,6 +13,7 @@ var packer = new Packer({
 
 
 describe('get file list',function(){
+  this.timeout(0);
   it('full version',function(done){
     packer.fullVersionFiles({
       name:"a",
@@ -100,7 +101,7 @@ describe('get file list',function(){
     packer.checksum({
       name:"a",
       version:"0.1.0"
-    })
-  })
+    });
+  });
 });
 

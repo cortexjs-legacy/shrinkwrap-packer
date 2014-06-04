@@ -13,7 +13,7 @@ var request = require('supertest');
 var utils = require('./lib/utils');
 var mkdirp = require('mkdirp');
 
-var shrinkpacker = require('../lib/middleware');
+var shrinkpacker = require('../').middleware;
 
 var app = express();
 
@@ -30,6 +30,7 @@ app.use(function(req,res){
 });
 
 describe('app',function(){
+  this.timeout(0);
 
   beforeEach(function(done){
     async.series([
@@ -75,7 +76,6 @@ describe('app',function(){
   });
   
   it('another full',function(done){
-    this.timeout(10000);
     function getZip(done){
       request(app)
         .get('/zip/unit-m-weixin/1.12.6.min.zip')
@@ -96,7 +96,6 @@ describe('app',function(){
   });
 
   it('another patch min',function(done){
-    this.timeout(100000);
     utils.verifyPatch(app,'unit-m-weixin@1.12.6~1.12.7.min',function(err,checksums){
       if(err){throw err;}
       expect(checksums[0]).to.equal(checksums[1]);
