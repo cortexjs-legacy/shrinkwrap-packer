@@ -7,9 +7,9 @@ var fstream = require('fstream');
 var mkdirp = require('mkdirp');
 var request = require('supertest');
 var glob = require('glob');
-var md5 = require('MD5');
 var debug = require('debug')('apptest');
 var exec = require('child_process').exec;
+var md5 = require('../../lib/md5');
 
 exports.extract = function(zippath,folder,done){
   folder = folder.replace(/\.min$/,'');
