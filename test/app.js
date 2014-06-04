@@ -70,7 +70,7 @@ describe('app',function(){
   });
 
   it('another patch min',function(done){
-    this.timeout(10000);
+    this.timeout(100000);
     utils.verifyPatch(app,'unit-m-weixin@1.12.6~1.12.7.min',function(err,checksums){
       if(err){throw err;}
       expect(checksums[0]).to.equal(checksums[1]);
