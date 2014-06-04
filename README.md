@@ -2,7 +2,6 @@
 
 Shrinkwrap server for cortex
 
-
 ## Server
 ```js
     var app = express();
