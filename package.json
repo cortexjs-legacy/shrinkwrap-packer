@@ -1,6 +1,6 @@
 {
   "name": "shrinkwrap-packer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "zip packing middleware",
   "main": "index.js",
   "scripts": {
