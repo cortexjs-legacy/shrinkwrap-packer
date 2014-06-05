@@ -10,6 +10,7 @@ var glob = require('glob');
 var debug = require('debug')('apptest');
 var exec = require('child_process').exec;
 var md5 = require('../../lib/md5');
+var checksum = require('../../lib/checksum');
 
 exports.extract = function(zippath,folder,done){
   folder = folder.replace(/\.min$/,'');
@@ -65,25 +66,6 @@ exports.runDirectives = function(directives, tmpdir, rootdir, done){
   },done);
 
 }
-
-exports.checksum = function(dir,done){
-  glob('**/*',{
-    cwd: dir,
-    mark: true
-  },function(err, matches){
-    if(err){return done(err);}
-    matches = matches.filter(function(item){return !item.match(/\/$/);});
-    async.map(matches,function(item,done){
-      fs.readFile(path.join(dir,item),function(err,content){
-        if(err){return done(err);}
-        done(null,md5(item)+md5(content));
-      });
-    },function(err,list){
-      if(err){return done(err);}
-      done(null,md5(list.sort().join('')));
-    });
-  });
-};
 
 exports.verifyPatch = function(app,patch,done){
   var isMin = patch.match(/\.min$/);
@@ -153,10 +135,10 @@ exports.verifyPatch = function(app,patch,done){
 
             async.series([
               function(done){
-                exports.checksum(p(to),done);
+                checksum.folder(p(to),done);
               },
               function(done){
-                exports.checksum(p(from_origin),done);
+                checksum.folder(p(from_origin),done);
               },
               function(done){
                 debug('request',checksumpath)

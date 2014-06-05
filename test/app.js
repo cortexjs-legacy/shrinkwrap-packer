@@ -111,7 +111,7 @@ describe('app',function(){
       .expect(200)
       .end(function(err, res) {
         if (err) throw err;
-        expect(res.text.length == 32);
+        expect(res.text.length).to.equal(32);
         done();
       });
   });
