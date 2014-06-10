@@ -17,36 +17,39 @@ var shrinkpacker = require('../').middleware;
 
 var app = express();
 
-app.use('/zip',shrinkpacker.static({
-    pack: path.join(__dirname,"fixtures","zip")
+app.use('/zip', shrinkpacker.static({
+  pack: path.join(__dirname, "fixtures", "zip")
 }));
-app.use('/zip',shrinkpacker.dynamic({
-    root: path.join(__dirname,"fixtures","mod"),
-    pack: path.join(__dirname,"fixtures","zip")
+app.use('/zip', shrinkpacker.dynamic({
+  root: path.join(__dirname, "fixtures", "mod"),
+  pack: path.join(__dirname, "fixtures", "zip")
 }));
 
-app.use(function(req,res){
-    res.send(404,"not found");
+app.use(function(req, res) {
+  res.send(404, "not found");
 });
 
-describe('app',function(){
+describe('app', function() {
   this.timeout(0);
 
-  beforeEach(function(done){
+  beforeEach(function(done) {
     async.series([
-      function(done){
-        fse.remove(path.join(__dirname,'tmp'),done);
+
+      function(done) {
+        fse.remove(path.join(__dirname, 'tmp'), done);
       },
-      function(done){
-        fse.remove(path.join(__dirname,'fixtures','zip'),done);
+      function(done) {
+        fse.remove(path.join(__dirname, 'fixtures', 'zip'), done);
       }
-    ],function(err){
-      if(err){return done(err);}
+    ], function(err) {
+      if (err) {
+        return done(err);
+      }
       done();
     })
   });
 
-  it('full',function(done){
+  it('full', function(done) {
     request(app)
       .get('/zip/a/0.1.0.zip')
       .expect(200)
@@ -56,9 +59,11 @@ describe('app',function(){
       });
   });
 
-  it('patch',function(done){
-    utils.verifyPatch(app,'a@0.1.0~0.1.1',function(err,checksums){
-      if(err){throw err;}
+  it('patch', function(done) {
+    utils.verifyPatch(app, 'a@0.1.0~0.1.1', function(err, checksums) {
+      if (err) {
+        throw err;
+      }
       expect(checksums[0]).to.equal(checksums[1]);
       expect(checksums[1]).to.equal(checksums[2]);
       done();
@@ -66,27 +71,29 @@ describe('app',function(){
   });
 
 
-  it('patch min',function(done){
-    utils.verifyPatch(app,'a@0.1.0~0.1.1.min',function(err,checksums){
-      if(err){throw err;}
+  it('patch min', function(done) {
+    utils.verifyPatch(app, 'a@0.1.0~0.1.1.min', function(err, checksums) {
+      if (err) {
+        throw err;
+      }
       expect(checksums[0]).to.equal(checksums[1]);
       expect(checksums[1]).to.equal(checksums[2]);
       done();
     });
   });
-  
-  it('another full',function(done){
-    function getZip(done){
+
+  it('another full', function(done) {
+    function getZip(done) {
       request(app)
         .get('/zip/unit-m-weixin/1.12.6.min.zip')
         .expect(200)
         .end(function(err, res) {
           if (err) throw err;
-          done(null,res);
+          done(null, res);
         });
     }
-    async.series([getZip,getZip],function(err,results){
-      ["last-modified","date","etag"].forEach(function(header){
+    async.series([getZip, getZip], function(err, results) {
+      ["last-modified", "date", "etag"].forEach(function(header) {
         delete results[0].headers[header];
         delete results[1].headers[header];
       });
@@ -95,17 +102,28 @@ describe('app',function(){
     });
   });
 
-  it('another patch min',function(done){
-    utils.verifyPatch(app,'unit-m-weixin@1.12.6~1.12.7.min',function(err,checksums){
-      if(err){throw err;}
+  it('another patch min', function(done) {
+    utils.verifyPatch(app, 'unit-m-weixin@1.12.6~1.12.7.min', function(err, checksums) {
+      if (err) {
+        throw err;
+      }
       expect(checksums[0]).to.equal(checksums[1]);
       expect(checksums[1]).to.equal(checksums[2]);
       done();
     });
   });
+  // it('third patch min', function(done) {
+  //   utils.verifyPatch(app, 'a@0.1.0~0.1.0.min', function(err, checksums) {
+  //     if (err) {
+  //       throw err;
+  //     }
+  //     expect(checksums[0]).to.equal(checksums[1]);
+  //     expect(checksums[1]).to.equal(checksums[2]);
+  //     done();
+  //   });
+  // });
 
-
-  it('checksum',function(done){
+  it('checksum', function(done) {
     request(app)
       .get('/zip/a/0.1.0.min-checksum')
       .expect(200)
