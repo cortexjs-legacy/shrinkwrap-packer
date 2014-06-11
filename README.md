@@ -94,8 +94,9 @@ or will filter files that **not** ends with `.min`
 5. prepare restart script  `echo 'npm install && pm2 restart "shrinkwrap-packer"' > restart.sh && chmod +x restart.sh`
 6. start server `./start.sh`
 7. config nginx 
+```
     location /zip {
         proxy_pass http://127.0.0.1:3000;
     }
-
+```
 
