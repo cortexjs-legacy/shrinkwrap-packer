@@ -84,13 +84,13 @@ or will filter files that **not** ends with `.min`
     Content-MD5: <md5 of zip file>
 
 
-### deployment
+### Deployment
 
 1. clone this project `git clone https://github.com/cortexjs/shrinkwrap-packer.git`
 2. copy server.js to some other path to prevent pull conflict `cd shrinkwrap-packer && cp server.js _server.js`
 3. edit `_server.js` config `pack`(folder to store zip file) and `root`(folder to search static files), feel free to change `port`
 4. install pm2 `npm install pm2 -g`
-5. prepare start script  `echo 'pm2 start app.js -i max --name "shrinkwrap-packer"' > start.sh && chmod +x start.sh`
+5. prepare start script  `echo 'pm2 start _server.js -i max --name "shrinkwrap-packer"' > start.sh && chmod +x start.sh`
 5. prepare restart script  `echo 'npm install && pm2 restart "shrinkwrap-packer"' > restart.sh && chmod +x restart.sh`
 6. start server `./start.sh`
 7. config nginx 
