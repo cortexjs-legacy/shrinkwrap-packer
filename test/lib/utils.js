@@ -11,6 +11,7 @@ var debug = require('debug')('apptest');
 var exec = require('child_process').exec;
 var md5 = require('../../lib/md5');
 var checksum = require('../../lib/checksum');
+var mkdirp = require('mkdirp');
 
 exports.extract = function(zippath, folder, done) {
   folder = folder.replace(/\.min$/, '');
@@ -21,7 +22,11 @@ exports.extract = function(zippath, folder, done) {
     }
     exec('unzip ' + zippath + ' -d ' + folder, function(err, stdout, stderr) {
       if (err) {
-        return done(err);
+        if(!!err.toString().match('zipfile is empty')){
+          return mkdirp(folder,done);
+        }else{
+          return done(err);
+        }
       }
       done(null);
     });

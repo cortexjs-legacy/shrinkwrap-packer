@@ -42,7 +42,7 @@ describe('app', function() {
         }, done);
       },
       function(done) {
-        async.map(["with-shrinkwrap", "b", "c"], function(name, done) {
+        async.map(["with-shrinkwrap", "with-css-changed", "with-js-modified-added-changed", "without-min"], function(name, done) {
           var moddir = path.join(__dirname, "fixtures", "mod", name);
           playground.resources(name).copy(moddir, done);
         }, done);
@@ -87,6 +87,18 @@ describe('app', function() {
 
   it('patch min', function(done) {
     utils.verifyPatch(app, 'with-shrinkwrap@0.1.0~0.1.1.min', function(err, checksums) {
+      if (err) {
+        throw err;
+      }
+      expect(checksums[0]).to.equal(checksums[1]);
+      expect(checksums[1]).to.equal(checksums[2]);
+      done();
+    });
+  });
+
+
+  it('patch min without min', function(done) {
+    utils.verifyPatch(app, 'without-min@0.0.1~0.0.2.min', function(err, checksums) {
       if (err) {
         throw err;
       }

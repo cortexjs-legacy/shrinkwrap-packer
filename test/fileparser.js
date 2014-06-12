@@ -20,14 +20,14 @@ describe('get file list',function(){
       version:"0.1.0"
     },function(err,result){
       if(err){return done(err);}
-      expect(result.sources).to.deep.equal([ 'with-shrinkwrap/0.1.0/**/*', 'b/0.0.1/**/*', 'c/0.1.0/**/*' ]);
+      expect(result.sources).to.deep.equal([ 'with-shrinkwrap/0.1.0/**/*', 'with-js-modified-added-changed/0.1.0/**/*', 'with-css-changed/0.0.1/**/*' ]);
       done();
     });
   });
 
   it('full version without shrinkwrap',function(done){
     packer.fullVersionFiles({
-      name:"b",
+      name:"with-css-changed",
       version:"0.0.3"
     },function(err,list){
       expect(err).to.not.be.null;
