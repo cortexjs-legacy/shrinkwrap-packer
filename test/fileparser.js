@@ -16,10 +16,11 @@ describe('get file list',function(){
   this.timeout(0);
   it('full version',function(done){
     packer.fullVersionFiles({
-      name:"a",
+      name:"with-shrinkwrap",
       version:"0.1.0"
     },function(err,result){
-      expect(result.sources).to.deep.equal([ 'a/0.1.0/**/*', 'b/0.0.1/**/*', 'c/0.1.0/**/*' ]);
+      if(err){return done(err);}
+      expect(result.sources).to.deep.equal([ 'with-shrinkwrap/0.1.0/**/*', 'b/0.0.1/**/*', 'c/0.1.0/**/*' ]);
       done();
     });
   });
@@ -36,7 +37,7 @@ describe('get file list',function(){
 
   it('patch version',function(done){
     packer.patchVersionFiles({
-      name:"a",
+      name:"with-shrinkwrap",
       version:{
         from:"0.1.0",
         to:"0.1.1"
@@ -49,7 +50,7 @@ describe('get file list',function(){
 
   it('patch version without shrinkwrap',function(){
     packer.patchVersionFiles({
-      name:"a",
+      name:"with-shrinkwrap",
       version:{
         from:"0.1.0",
         to:"0.1.9"
