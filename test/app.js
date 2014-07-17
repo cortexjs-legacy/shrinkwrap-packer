@@ -26,9 +26,8 @@ app.use('/zip', shrinkpacker.dynamic({
   pack: path.join(__dirname, "fixtures", "zip")
 }));
 
-app.use(function(req, res) {
-  res.send(404, "not found");
-});
+app.use(shrinkpacker.errorHandler);
+
 
 describe('app', function() {
   this.timeout(0);
@@ -42,7 +41,7 @@ describe('app', function() {
         }, done);
       },
       function(done) {
-        async.map(["with-shrinkwrap", "with-css-changed", "with-js-modified-added-changed", "without-min"], function(name, done) {
+        async.map(["with-shrinkwrap", "with-css-changed", "with-dependency-not-exists", "with-js-modified-added-changed", "without-min"], function(name, done) {
           var moddir = path.join(__dirname, "fixtures", "mod", name);
           playground.resources(name).copy(moddir, done);
         }, done);
@@ -73,6 +72,22 @@ describe('app', function() {
 
   });
 
+  it('full with dependency not exists', function(done) {
+    function getZip(done) {
+      request(app)
+        .get('/zip/with-dependency-not-exists/0.1.0.zip')
+        .expect(404)
+        .end(function(err, res) {
+          if (err) throw err;
+          done(null, res);
+        });
+    }
+    getZip(function(err, response){
+      expect(response.text).to.equal("Module with-js-modified-added-changed@0.2.0 Not Found");
+      done();
+    });
+  });
+
   it('patch', function(done) {
     utils.verifyPatch(app, 'with-shrinkwrap@0.1.0~0.1.1', function(err, checksums) {
       if (err) {
@@ -84,6 +99,22 @@ describe('app', function() {
     });
   });
 
+  it('patch-with-missing-dependency', function(done) {
+    function getZip(done) {
+      request(app)
+        .get('/zip/with-dependency-not-exists/0.1.0~0.1.1.zip')
+        .expect(404)
+        .end(function(err, res) {
+          if (err) throw err;
+          done(null, res);
+        });
+    }
+
+    getZip(function(err, response){
+      expect(response.text).to.equal("Module with-js-modified-added-changed@0.2.0 Not Found");
+      done();
+    });
+  });
 
   it('patch min', function(done) {
     utils.verifyPatch(app, 'with-shrinkwrap@0.1.0~0.1.1.min', function(err, checksums) {
@@ -107,7 +138,6 @@ describe('app', function() {
       done();
     });
   });
-
 
   it('checksum', function(done) {
     request(app)

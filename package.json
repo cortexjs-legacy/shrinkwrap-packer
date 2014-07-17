@@ -1,6 +1,6 @@
 {
   "name": "shrinkwrap-packer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "zip packing middleware",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
-    "cortex-playground": "^0.1.7",
+    "cortex-playground": "~0.2.10",
     "errorhandler": "^1.0.1",
     "express": "^4.2.0",
     "fstream": "^0.1.25",
