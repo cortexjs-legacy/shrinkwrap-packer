@@ -1,6 +1,7 @@
 [{
   "name":"shrinkwrap-packer-<env>",
   "script":"server.js",
+  "instances":"max",
   "env":{
     "NODE_ENV":"<env>"
   }
