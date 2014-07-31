@@ -1,0 +1,7 @@
+[{
+  "name":"shrinkwrap-packer-<env>",
+  "script":"server.js",
+  "env":{
+    "NODE_ENV":"<env>"
+  }
+}]

@@ -1,0 +1,4 @@
+rootpath: "<root path>"
+packpath: "<pack path>"
+port: 3000
+cache: true

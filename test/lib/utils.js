@@ -155,6 +155,7 @@ exports.verifyPatch = function(app, patch, done) {
               function(done) {
                 debug('request', checksumpath)
                 request(app).get(checksumpath).end(function(err, res) {
+                  if(err){return done(err);}
                   done(null, res.text);
                 });
               }

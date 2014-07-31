@@ -19,11 +19,13 @@ var shrinkpacker = require('../').middleware;
 var app = express();
 
 app.use('/zip', shrinkpacker.static({
-  pack: path.join(__dirname, "fixtures", "zip")
+  pack: path.join(__dirname, "fixtures", "zip"),
+  cache: true
 }));
 app.use('/zip', shrinkpacker.dynamic({
   root: path.join(__dirname, "fixtures", "mod"),
-  pack: path.join(__dirname, "fixtures", "zip")
+  pack: path.join(__dirname, "fixtures", "zip"),
+  cache: true
 }));
 
 app.use(shrinkpacker.errorHandler);
@@ -57,7 +59,7 @@ describe('app', function() {
         .get('/zip/with-shrinkwrap/0.1.0.zip')
         .expect(200)
         .end(function(err, res) {
-          if (err) throw err;
+          if (err) return done(err);
           done(null, res);
         });
     }
@@ -69,7 +71,6 @@ describe('app', function() {
       expect(results[0].headers).to.deep.equal(results[1].headers);
       done();
     });
-
   });
 
   it('full with dependency not exists', function(done) {
