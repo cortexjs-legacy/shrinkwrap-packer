@@ -33,6 +33,28 @@ describe('splite', function () {
     });
   });
 
+  it('range with prerelease', function () {
+    build('/a/0.1.0-beta~0.1.2.zip',{
+      min: false,
+      name: "a",
+      version: {
+        from: "0.1.0-beta",
+        to: "0.1.2"
+      }
+    });
+  });
+
+
+  it('checksum', function () {
+    build('/a/0.1.0-checksum',{
+      min: false,
+      name: "a",
+      version: "0.1.0",
+      checksum: true
+    });
+  });
+
+
 
   it('min', function () {
     build('/a/0.1.0~0.1.2.min.zip',{
